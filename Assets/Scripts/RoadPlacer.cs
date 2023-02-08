@@ -8,7 +8,8 @@ using UnityEngine;
 public class RoadPlacer : MonoBehaviour
 {
     [SerializeField] private GameObject road;
-
+    [SerializeField] private LayerMask roadLayer;
+    [Tooltip("Load the textures in this order: \n0 - Solo Road\n1 - Deadend road\n2 - Straight Road\n3 - Three way Road\n4 - Four way road\n5 - Corner road\n\nMake sure that they have the same orientation as the ones provided")]
     [SerializeField] private List<Texture> roadTextures = new List<Texture>();
 
     private bool isPlacing = false;
@@ -36,7 +37,7 @@ public class RoadPlacer : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Vector3 pos = new Vector3(0, -100, 0);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, roadLayer))
         {
             pos = hit.collider.gameObject.transform.position;
             waypointManager.RemoveWaypoint(hit.collider.gameObject.transform.position);
@@ -65,7 +66,7 @@ public class RoadPlacer : MonoBehaviour
                         roadCheckerPos.z -= 1; // Check Back
                         break;
                 }
-                List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, 1 << 6).ToList();
+                List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
 
                 if (cols.Count > 0)
                 {
@@ -103,7 +104,7 @@ public class RoadPlacer : MonoBehaviour
             tile = new Vector3(Mathf.CeilToInt(tile.x), 0f, Mathf.CeilToInt(tile.z));
         }
 
-        List<Collider> obstacles = Physics.OverlapBox(tile, road.transform.localScale / 2.1f, Quaternion.identity, 1 << 6).ToList();
+        List<Collider> obstacles = Physics.OverlapBox(tile, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
         if (obstacles.Count > 0)
             return;
 
@@ -139,7 +140,7 @@ public class RoadPlacer : MonoBehaviour
                     roadCheckerPos.z -= 1; // Check Back
                     break;
             }
-            List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, 1 << 6).ToList();
+            List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
 
             if (cols.Count > 0)
             {
