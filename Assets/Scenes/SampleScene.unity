@@ -455,8 +455,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 52f676cb3e782aa418ca30ee5979692e, type: 3}
   - {fileID: 2800000, guid: bca12e984ee8772448ccdb1a691a5d53, type: 3}
   - {fileID: 2800000, guid: 13eddb63461c40a49a31a841bfd76dbe, type: 3}
-  useWaypoints: 1
-  tryPlaceRoadCd: 0.05
+  roadSize: 3
+  useWaypoints: 0
+  tryPlaceRoadCd: 0.0001
 --- !u!114 &1495692582
 MonoBehaviour:
   m_ObjectHideFlags: 0

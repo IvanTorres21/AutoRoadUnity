@@ -13,6 +13,8 @@ public class RoadPlacer : MonoBehaviour
     [SerializeField] private LayerMask roadLayer;
     [Tooltip("Load the textures in this order: \n0 - Solo Road\n1 - Deadend road\n2 - Straight Road\n3 - Three way Road\n4 - Four way road\n5 - Corner road\n\nMake sure that they have the same orientation as the ones provided")]
     [SerializeField] private List<Texture> roadTextures = new List<Texture>();
+    [Tooltip("The base prefab is 1 by 1, but if your sizes are bigger change it here")]
+    [SerializeField] private float roadSize = 1;
 
 
     [Header("Options")]
@@ -107,19 +109,19 @@ public class RoadPlacer : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        roadCheckerPos.x += 1; // Check right
+                        roadCheckerPos.x += roadSize; // Check right
                         break;
                     case 1:
-                        roadCheckerPos.x -= 1; // Check left
+                        roadCheckerPos.x -= roadSize; // Check left
                         break;
                     case 2:
-                        roadCheckerPos.z += 1; // Check Front
+                        roadCheckerPos.z += roadSize; // Check Front
                         break;
                     case 3:
-                        roadCheckerPos.z -= 1; // Check Back
+                        roadCheckerPos.z -= roadSize; // Check Back
                         break;
                 }
-                List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
+                List<Collider> cols = Physics.OverlapBox(roadCheckerPos, new Vector3(roadSize, 1f, roadSize) / 2.1f, Quaternion.identity, roadLayer).ToList();
 
                 if (cols.Count > 0)
                 {
@@ -157,7 +159,7 @@ public class RoadPlacer : MonoBehaviour
             tile = new Vector3(Mathf.CeilToInt(tile.x), 0f, Mathf.CeilToInt(tile.z));
         }
 
-        List<Collider> obstacles = Physics.OverlapBox(tile, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
+        List<Collider> obstacles = Physics.OverlapBox(tile, new Vector3(roadSize, 1f, roadSize) / 2.1f, Quaternion.identity, roadLayer).ToList();
         if (obstacles.Count > 0)
             return;
 
@@ -181,16 +183,16 @@ public class RoadPlacer : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    roadCheckerPos.x += 1; // Check right
+                    roadCheckerPos.x += roadSize; // Check right
                     break;
                 case 1:
-                    roadCheckerPos.x -= 1; // Check left
+                    roadCheckerPos.x -= roadSize; // Check left
                     break;
                 case 2:
-                    roadCheckerPos.z += 1; // Check Front
+                    roadCheckerPos.z += roadSize; // Check Front
                     break;
                 case 3:
-                    roadCheckerPos.z -= 1; // Check Back
+                    roadCheckerPos.z -= roadSize; // Check Back
                     break;
             }
             List<Collider> cols = Physics.OverlapBox(roadCheckerPos, road.transform.localScale / 2.1f, Quaternion.identity, roadLayer).ToList();
